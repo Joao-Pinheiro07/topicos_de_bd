@@ -1,5 +1,8 @@
 # Entrega Final - Tópicos Especiais De Banco de Dados
 
+## Link do Repositório
+    https://github.com/Joao-Pinheiro07/topicos_de_bd
+
 ## Grupo 1
 
  - Arthur de Castilho Nascimento - 11270674
@@ -19,3 +22,4 @@
  Script de criação da tabela do Apache Hive
  ### slides.pdf
  Slides da apresentação realizada em aula no dia 29/06/2022
+
