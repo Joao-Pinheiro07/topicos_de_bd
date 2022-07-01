@@ -1,7 +1,13 @@
 import re
 import math
+from pyspark import SparkContext
+from pyspark import HiveContext
+from pyspark.streaming import StreamingContext
 
-text = "says he has signed a decree saying foreign buyers must pay in rubles for Russian gas from April 1, and contracts would be halted if these payments are not made."
+sc = SparkContext(appName="PythonSentimentAnalysis")
+sqlCtx = HiveContext(sc)
+
+
 
 AFINN = "./words.txt"
 
@@ -37,5 +43,22 @@ def sentiment(text):
         sentiment = 0
     return sentiment
 
+tweets = sqlCtx.sql("select username, texto from tweets")
 
-print(sentiment(text=text))
+tweet_contents = tweets.select("texto").collect()
+
+sentimentTuple = 0
+
+for row in tweet_contents:       
+    sentimentTuple += sentiment(text=row[0])
+
+
+log4jLogger = sc._jvm.org.apache.log4j
+LOGGER = log4jLogger.LogManager.getLogger(__name__)
+LOGGER.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+LOGGER.info(str(sentimentTuple))
+LOGGER.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
+query = "INSERT INTO sentimental_score select current_timestamp(), " + str(sentimentTuple)
+
+sqlCtx.sql(query)
