@@ -53,12 +53,6 @@ for row in tweet_contents:
     sentimentTuple += sentiment(text=row[0])
 
 
-log4jLogger = sc._jvm.org.apache.log4j
-LOGGER = log4jLogger.LogManager.getLogger(__name__)
-LOGGER.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-LOGGER.info(str(sentimentTuple))
-LOGGER.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-
 query = "INSERT INTO sentimental_score select current_timestamp(), " + str(sentimentTuple)
 
 sqlCtx.sql(query)
